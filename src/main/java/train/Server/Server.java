@@ -1,12 +1,15 @@
 package train.Server;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+
 import train.DataHub;
 
-public class EchoServer {
+public class Server {
 
     static Scanner scan = new Scanner(System.in);
 
