@@ -34,10 +34,28 @@ prepare:
         reports:
             dotenv: variables.env
 
+# Check for existing images
+check:
+    stage: prepare
+    needs:
+        - job: prepare
+          artifacts: true
+    script:
+        - |
+            # Check if the image exists locally or on Docker Hub
+            if docker manifest inspect "$IMAGE_NAME:$IMAGE_TAG" > /dev/null 2>&1; then
+                echo "Docker image $IMAGE_NAME:$IMAGE_TAG already exists."
+                exit 1 # Fail the pipeline
+            else
+                echo "Docker image $IMAGE_NAME:$IMAGE_TAG does not exist."
+                exit 0 # Pass the check stage
+            fi
+
 # Build the image for AMD64 architecture
 build_amd64:
     stage: build
     needs:
+        - job: check
         - job: prepare
           artifacts: true
     script:
@@ -56,6 +74,7 @@ build_amd64:
 build_arm64:
     stage: build
     needs:
+        - job: check
         - job: prepare
           artifacts: true
     script:
