@@ -8,6 +8,6 @@ RUN mvn verify --fail-never
 ADD . $HOME
 RUN mvn clean package
 
-FROM arm64v8/eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-alpine
 COPY --from=build /usr/app/target/train-board-api-jar-with-dependencies.jar /app/runner.jar
 ENTRYPOINT java -jar /app/runner.jar

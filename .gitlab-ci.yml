@@ -6,7 +6,7 @@ stages:
 
 # Define the variables
 variables:
-    PROJECT_NAME: set-portfolio
+    PROJECT_NAME: train-board-api
     IMAGE_NAME: $AZURECR_HOST/$PROJECT_NAME
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
