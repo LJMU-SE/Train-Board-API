@@ -72,17 +72,17 @@ build_arm64:
         - saas-linux-small-arm64
 
 # Deploy the image to local kubernetes cluster
-deploy:
-    stage: deploy
-    image: cylab/kubectl
-    needs:
-        - job: build_arm64
-        - job: prepare
-          artifacts: true
-    services: []
-    before_script: []
-    script:
-        # Deploy the image to the local kubernetes cluster
-        - kubectl config use-context $KUBE_CONTEXT
-        - kubectl apply -f $CI_PROJECT_DIR/specs/.
-        - kubectl set image deployment/set-portfolio set-portfolio=$IMAGE_NAME:$TAG-arm64
+# deploy:
+#     stage: deploy
+#     image: cylab/kubectl
+#     needs:
+#         - job: build_arm64
+#         - job: prepare
+#           artifacts: true
+#     services: []
+#     before_script: []
+#     script:
+#         # Deploy the image to the local kubernetes cluster
+#         - kubectl config use-context $KUBE_CONTEXT
+#         - kubectl apply -f $CI_PROJECT_DIR/specs/.
+#         - kubectl set image deployment/set-portfolio set-portfolio=$IMAGE_NAME:$TAG-arm64
