@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import train.Service.*;
 import java.io.File;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.time.LocalTime;
 
-public class BitmapExample {
+public class BitmapGenerator {
+
+    private static String globalFont = "SansSerif";
 
     /*
      * Simple function to save the file to the specified location and will label them approitealy
@@ -49,13 +49,14 @@ public class BitmapExample {
      */
     public void drawBoardImage(int width, int height, ArrayList<TrainBoard> trainBoardInformation, int platformNo, int callingLoops, int totalPages) {
         TrainBoard board = trainBoardInformation.get(platformNo);
-        String platformNumberText = board.getDepartureTime() + " Platform " + board.getPlatformNo(); // work out how to ensure it takes up the total amount of space across the screen
+        String platformNumber = board.getPlatformNo();
+        String platformNumberText = platformNumber == null ? "Platform --" :board.getDepartureTime() + " Platform " + board.getPlatformNo(); // work out how to ensure it takes up the total amount of space across the screen
         ArrayList<CallingPoint> callingStations = board.getCallingStations(); // array of calling stations
-        String infoText = "Calling at:             Page " + (callingLoops) + " of " + totalPages; // work out how to ensure it takes up the total amount of space across the screen
+        String infoText = "Calling at:       Page " + (callingLoops) + " of " + totalPages; // work out how to ensure it takes up the total amount of space across the screen
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = image.createGraphics();
         g2d.setColor(Color.ORANGE);
-        g2d.setFont(new Font("TimesRoman", Font.PLAIN, 16));
+        g2d.setFont(new Font(globalFont, Font.PLAIN, 14));
         int x = 0;
         int y = 0;
 
@@ -63,7 +64,7 @@ public class BitmapExample {
 
         try {
             // Displays if the train has been cancelled or the platform it is due to arrive
-            y = 15;
+            y = 13;
             g2d.drawString(textLengthCheck(board.getOrigin(),124,g2d),x,y);
             y = 30;
             if (board.getOnTime().equals("Cancelled")){
@@ -79,7 +80,7 @@ public class BitmapExample {
             y = 44;
             g2d.drawString(textLengthCheck(board.getDestination(), 124, g2d), x, y);
 
-            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 17-8));
+            g2d.setFont(new Font(globalFont, Font.PLAIN, 17-8));
             y = 55;
             // displays if the train is on time, delayed or cancelled
             if (board.getOnTime().equals("On time")){
@@ -96,21 +97,19 @@ public class BitmapExample {
             }
 
             g2d.setColor(Color.ORANGE);
-            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 17-8));
+            g2d.setFont(new Font(globalFont, Font.PLAIN, 17-8));
             x = 126;
             y = 10;
             // displays the number of calling station pages
-            g2d.drawString(infoText, x, y);
+            g2d.drawString(infoText, x + 1, y);
 
-            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 17-8));
+            g2d.setFont(new Font(globalFont, Font.PLAIN, 9));
             y = 20;
             // displays the calling points of the train
             ArrayList <CallingPoint> callingStationsCopy = new ArrayList<CallingPoint> (callingStations);
-            System.out.println(callingStationsCopy.size());
-            System.out.println(callingStations.size());
 
             for(CallingPoint station : callingStationsCopy){
-                String stationName = station.getLocationName() + " - " + station.getSt();
+                String stationName = station.getSt() + " - " + station.getLocationName();
                 g2d.drawString(textLengthCheck(stationName, 128, g2d), x, y);
                 y += 10;                          
                 callingStations.remove(0);
@@ -120,9 +119,8 @@ public class BitmapExample {
             }
             y =125;
 
-            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 17-8));
+            g2d.setFont(new Font(globalFont, Font.PLAIN, 17-8));
             y = 200;
-            g2d.drawString("Jack is a knob",x,y);
             // finally displays the train service it is running on
             g2d.drawString(board.getTrainService(), x,y);
 
@@ -130,7 +128,7 @@ public class BitmapExample {
             g2d.dispose();
         }
         // calls the saveImage method to save the image
-        saveImage(image, "C:\\Users\\Chris\\Desktop\\Test\\src\\main\\java\\train\\Images\\Board" + callingLoops + ".BMP");
+        saveImage(image, "/data/Board" + callingLoops + ".BMP");
     }
 
     public void bitMapDrawing(ArrayList<TrainBoard> trainBoardInformation, int platformNo) {
@@ -146,8 +144,6 @@ public class BitmapExample {
 
         if (callingPageNos == 0) callingPageNos = 1; // if there are no calling stations it will display the current number of pages
         int pageNumber = 1; // to keep track of the current page number
-
-        System.out.println(callingPageNos);
 
         do{
             drawBoardImage(256, 64, trainBoardInformation, platformNo, pageNumber, (int)callingPageNos);

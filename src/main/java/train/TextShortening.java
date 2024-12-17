@@ -8,6 +8,8 @@ public class TextShortening {
 
         HashMap<String, String> shortWords = new HashMap<String, String>();
         shortWords.put("Street", "St");
+        shortWords.put("Saint", "St");
+        shortWords.put("Lane", "Ln");
         shortWords.put("Road", "Rd");
         shortWords.put("Avenue", "Ave");
         shortWords.put("Drive", "Dr");
@@ -60,13 +62,16 @@ public class TextShortening {
 
     public String shortCityNames(String station){
         HashMap<String, String> shortCities = new HashMap<String, String>();
+        shortCities.put("Merseyside", "M'side");
         shortCities.put("Liverpool", "L'pool");
         shortCities.put("Manchester", "Man'c");
+        shortCities.put("Wealdstone", "W'stone");
         shortCities.put("Birmingham", "B'ham");
         shortCities.put("Glasgow", "G'gow");
         shortCities.put("Edinburgh", "Edin'");
         shortCities.put("Newcastle", "N'castle");
         shortCities.put("Sheffield", "Sheff'");
+        shortCities.put("Lancashire", "Lancs'");
         shortCities.put("Cardiff", "C'diff");
         shortCities.put("London", "L'don");
         shortCities.put("Nottingham", "Nott'm");
@@ -79,7 +84,7 @@ public class TextShortening {
         shortCities.put("Smethwick", "Sm'thwick");
 
 
-        String[] stationWords = station.split(" ");
+        String[] stationWords = station.split("[^a-zA-Z0-9]+|[\\\\[\\\\](){}]");
 
         for (String word : stationWords) {
             if (shortCities.containsKey(word)) {

@@ -3,10 +3,12 @@ package train;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.databind.ObjectMapper; // version 2.11.1
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
 import train.Service.*;
 import java.util.Scanner;
 
@@ -22,6 +24,7 @@ public class DataHub {
 
 		String run(String url) throws IOException {
 			String apiKey = System.getenv("RAILDATA_API_KEY");
+
 			Request request = new Request.Builder()
 					.url(url)
 					.addHeader("x-apikey", apiKey)
@@ -115,7 +118,7 @@ public class DataHub {
 	public void createBoard(int platformNo) throws IOException {
 		ArrayList<TrainBoard> trainBoardInformation = new ArrayList<TrainBoard>();
 		generateAPI example = new generateAPI();
-		BitmapExample image = new BitmapExample();
+		BitmapGenerator image = new BitmapGenerator();
 		
 		// Uncomment if you want user input
 		//DataLoader loader = new DataLoader();
@@ -128,7 +131,7 @@ public class DataHub {
 
 		// Comment out if you want user input, default set to LIV
 		String response = example.run(
-				"https://api1.raildata.org.uk/1010-live-departure-board-dep/LDBWS/api/20220120/GetDepBoardWithDetails/LIV");
+				"https://api1.raildata.org.uk/1010-live-departure-board-dep/LDBWS/api/20220120/GetDepBoardWithDetails/GSW");
 
 		try {
 			// Create a new ObjectMapper object

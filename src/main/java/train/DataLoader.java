@@ -12,7 +12,7 @@ public class DataLoader {
     String line = "";
     String splitBy = ",";
     try {
-        BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Chris\\OneDrive - Liverpool John Moores University\\Documents\\Test\\src\\main\\java\\train\\Data\\stations.csv"));
+        BufferedReader br = new BufferedReader(new FileReader("./src/main/java/train/Data/stations.csv"));
         while ((line = br.readLine()) != null) {
             String[] station = line.split(splitBy); // use comma as separator
             StationInformation stationInformation = new StationInformation(station[0], station[3]);

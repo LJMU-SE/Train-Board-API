@@ -3,6 +3,7 @@ package train.Server;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -38,12 +39,25 @@ public class Server {
 
 
         int port = 9876;
-        String folderPath = "C:\\Users\\Chris\\Desktop\\Test\\src\\main\\java\\train\\Images";  // Path to the folder containing the images
+        String folderPath = "/data";  // Path to the folder containing the images
+
+        // Make the folder if it doesn't exist
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
         String format = "bmp";  // Image format
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("Server is listening on port " + port);
-            //serverSocket.setSoTimeout(5000);
+            String localIP;
+
+            // Output the local IP address
+            try (Socket socket = new Socket()) {
+                socket.connect(new InetSocketAddress("google.com", 80));
+                localIP = socket.getLocalAddress().getHostAddress();
+            }
+            System.out.println("Server is listening on: " + localIP + ":" + port);
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
@@ -65,7 +79,6 @@ public class Server {
 
                             while (checkFolder(folderPath)) {
                                 // grabs the first file in the folder
-                                File folder = new File(folderPath);
                                 File[] files = folder.listFiles();
                                 String filePath = files[0].getAbsolutePath();
 
@@ -82,7 +95,6 @@ public class Server {
                                 // deletes the image in the folder
                                 files[0].delete();
                                 System.out.println("Image deleted");
-                                System.out.println(folder.listFiles().length);
  
                                 try {
                                     Thread.sleep(10000);
