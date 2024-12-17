@@ -37,6 +37,7 @@ target/
 
 # Data output folder
 data/
+*.BMP
 
 # System Files
 .DS_Store
