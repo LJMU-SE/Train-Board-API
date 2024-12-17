@@ -24,10 +24,10 @@ hs_err_pid*
 replay_pid*
 
 # IDE Files
-.vscode
-.idea
-.ide
-.settings
+.vscode/
+.idea/
+.ide/
+.settings/
 
 # Maven Files
 .project  
