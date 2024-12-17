@@ -1,0 +1,88 @@
+# Define the stages
+stages:
+    - prepare
+    - build
+    - deploy
+
+# Define the variables
+variables:
+    PROJECT_NAME: set-portfolio
+    IMAGE_NAME: $AZURECR_HOST/$PROJECT_NAME
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    CI_PROJECT_DIR: k3s
+    KUBE_CONTEXT: ljmu-set/K3S:set-lab-cluster
+
+# Set default image and services
+default:
+    image: docker:24.0.5
+    services:
+        - docker:24.0.5-dind
+    before_script:
+        - until docker info; do sleep 1; done
+        - echo "$AZURECR_PASSWORD" | docker login $AZURECR_HOST -u $AZURECR_USER --password-stdin
+
+# Prepare the job
+prepare:
+    stage: prepare
+    script:
+        - apk add jq git
+        - export TAG=$(jq -r .version pom.xml)
+        - echo "TAG=$TAG" >> variables.env
+    before_script: []
+    services: []
+    artifacts:
+        reports:
+            dotenv: variables.env
+
+# Build the image for AMD64 architecture
+build_amd64:
+    stage: build
+    needs:
+        - job: prepare
+          artifacts: true
+    script:
+        - docker pull "$IMAGE_NAME:latest" || true
+        - docker build .
+          --build-arg BUILDKIT_INLINE_CACHE=1
+          --cache-from $IMAGE_NAME:latest
+          --tag "$IMAGE_NAME:latest"
+          --tag "$IMAGE_NAME:$TAG"
+        - docker push $IMAGE_NAME:latest
+        - docker push $IMAGE_NAME:$TAG
+    tags:
+        - saas-linux-small-amd64
+
+# Build the image for ARM64 architecture
+build_arm64:
+    stage: build
+    needs:
+        - job: prepare
+          artifacts: true
+    script:
+        - docker pull "$IMAGE_NAME:latest-arm64" || true
+        - docker build .
+          --build-arg BUILDKIT_INLINE_CACHE=1
+          --cache-from $IMAGE_NAME:latest-arm64
+          --tag "$IMAGE_NAME:latest-arm64"
+          --tag "$IMAGE_NAME:$TAG-arm64"
+        - docker push $IMAGE_NAME:latest-arm64
+        - docker push $IMAGE_NAME:$TAG-arm64
+    tags:
+        - saas-linux-small-arm64
+
+# Deploy the image to local kubernetes cluster
+deploy:
+    stage: deploy
+    image: cylab/kubectl
+    needs:
+        - job: build_arm64
+        - job: prepare
+          artifacts: true
+    services: []
+    before_script: []
+    script:
+        # Deploy the image to the local kubernetes cluster
+        - kubectl config use-context $KUBE_CONTEXT
+        - kubectl apply -f $CI_PROJECT_DIR/specs/.
+        - kubectl set image deployment/set-portfolio set-portfolio=$IMAGE_NAME:$TAG-arm64
