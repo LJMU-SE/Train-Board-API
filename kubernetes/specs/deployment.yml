@@ -1,0 +1,39 @@
+---
+# Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: train-board-api
+    namespace: default
+spec:
+    replicas: 4
+    selector:
+        matchLabels:
+            app: train-board-api
+    template:
+        metadata:
+            labels:
+                app: train-board-api
+        spec:
+            containers:
+                - name: train-board-api
+                  image: $IMAGE_NAME:latest-arm64
+                  imagePullPolicy: Always
+                  env:
+                      - name: RAILDATA_API_KEY
+                        value: $API_KEY
+                  resources:
+                      limits:
+                          cpu: "0.5"
+                          memory: "512Mi"
+                      requests:
+                          cpu: "0.1"
+                          memory: "256Mi"
+            imagePullSecrets:
+                - name: azurecr
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxUnavailable: 1
+            maxSurge: 1

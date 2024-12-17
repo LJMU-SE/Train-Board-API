@@ -1,0 +1,16 @@
+---
+# Service
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: train-board-api
+    namespace: default
+spec:
+    type: NodePort
+    selector:
+        app: train-board-api
+    ports:
+        - port: 9876
+          nodePort: 32181
+          name: http
