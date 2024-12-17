@@ -8,44 +8,36 @@ The aim of this project is to develop a custom Train Depature Board as seen at t
 
 ## Hardware
 
-The matrix displays are being driven by **Interstate 75 W** boards controlled by a **Raspberry Pico 2**. We are currently using 4 boards to display one platforms information.
+The matrix displays are being driven by **Interstate 75 W** boards controlled by a **Raspberry Pico 2**. We are currently using 4 boards to display one platforms information. We are also running the Java server on a **Kubernetes Cluster**.
 
 
 ## Features
 
 ### Implemented Features
 
-#### Basic Loop & Data Logging
+#### API Request
 
--   Reads sensors as fast as possible.
--   Outputs a debug string to the Serial output every 5 seconds.
--   The debug string includes the latest values for all sensor readings and system statuses, detailing whether sensors are either above, within, or below the set range.
+-   Able to create a GET request through the Rail Data Marketplace for any chosen Train Station Code which gives us information based on all the services currently avaliable at that station. Improvements to this by adding a post request to allow the change of Station on the fly.
 
-#### User Output Display
+#### Matrix Output Display
 
--   Integrated output display screen that reports current sensor values and statuses.
--   Displays minimum and maximum temperature/humidity over the last 24 hours.
+-   Once the request has been made, the information is used to create a .PNG image for the first service avaliable at the chosen station and sends the image to the pico for display.
 
-#### Mode Selection
+#### Server Hosted
 
--   Through the use of a rotary encoder, the user is now able to change the operating mode of the system.
--   Display has been updated to show value states using colour indicators , with values being printed in red if they are out of the defined range of the current operating mode, and green if they are within.
-
-#### Custom User Mode
-
--   User is now able to create their custom operating mode and select it in the mode list.
--   Double buffering has now been added for a smoother display, eliminating flickering when the screen updates.
+- The Java server which creates the API request and draws the image is now being ran on a Kubernetes Cluster.
 
 ### Features Not Yet Implemented
 
 -   **Server hosted**
-- **Multiple Platforms Displayed*
+- **Multiple Platforms Displayed**
+- **Better handling of scaling sizing**
+- **Optimised code**
+- **Add post request for changing stations**
 
-### Output Displays
+### Output Display
 
 V.1
 
-![PXL_20240327_142814390](img/ColdFrame-v1.jpg)
 
-V.2
-![PXL_20240530_111212887](img/ColdFrame-v2.jpg)
+![First Display](images/WhatsApp%20Video%202024-12-16%20at%2013.40.05.mp4)
