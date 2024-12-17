@@ -104,3 +104,4 @@ deploy:
         - kubectl config use-context $KUBE_CONTEXT
         - kubectl apply -f $CI_PROJECT_DIR/specs/.
         - kubectl set image deployment/$PROJECT_NAME $PROJECT_NAME=$IMAGE_NAME:$TAG-arm64
+        - kubectl set env deployment/$PROJECT_NAME RAILDATA_API_KEY=$API_KEY
