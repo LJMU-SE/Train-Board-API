@@ -26,7 +26,6 @@ default:
 prepare:
     stage: prepare
     script:
-        - apk add xmllint
         - export TAG=$(awk -F'[<>]' '/<version>/{print $3; exit}' pom.xml)
         - echo "TAG=$TAG" >> variables.env
     before_script: []
