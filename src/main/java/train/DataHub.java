@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import okhttp3.OkHttpClient;
@@ -137,6 +138,8 @@ public class DataHub {
 		try {
 			// Create a new ObjectMapper object
 			ObjectMapper mapper = new ObjectMapper();
+			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
 			// Parse the JSON data and read it into the Root object
 			Root root = mapper.readValue(response, Root.class);
 			addServicesToTrainBoard(root, trainBoardInformation);
