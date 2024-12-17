@@ -22,7 +22,7 @@ spec:
                   imagePullPolicy: Always
                   env:
                       - name: RAILDATA_API_KEY
-                        value: $API_KEY
+                        value: ${API_KEY}
                   resources:
                       limits:
                           cpu: "0.5"

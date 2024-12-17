@@ -138,7 +138,6 @@ public class DataHub {
 		try {
 			// Create a new ObjectMapper object
 			ObjectMapper mapper = new ObjectMapper();
-			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 			// Parse the JSON data and read it into the Root object
 			Root root = mapper.readValue(response, Root.class);
