@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class BitmapGenerator {
 
-    private static String globalFont = "SansSerif";
+    private static final String globalFont = "SansSerif";
 
     /*
      * Simple function to save the file to the specified location and will label them approitealy
