@@ -59,7 +59,7 @@ public class BitmapGenerator {
     public void drawBoardImage(int width, int height, ArrayList<TrainBoard> trainBoardInformation, int platformNo, int callingLoops, int totalPages) {
         TrainBoard board = trainBoardInformation.get(platformNo);
         String platformNumber = board.getPlatformNo();
-        String platformNumberText = platformNumber == null ? board.getDepartureTime() + "Platform --" : board.getDepartureTime() + " Platform " + board.getPlatformNo(); // work out how to ensure it takes up the total amount of space across the screen
+        String platformNumberText = platformNumber == null ? board.getDepartureTime() + " Platform --" : board.getDepartureTime() + " Platform " + board.getPlatformNo(); // work out how to ensure it takes up the total amount of space across the screen
         ArrayList<CallingPoint> callingStations = board.getCallingStations(); // array of calling stations
         String infoText = "Calling at:       Page " + (callingLoops) + " of " + totalPages; // work out how to ensure it takes up the total amount of space across the screen
 
