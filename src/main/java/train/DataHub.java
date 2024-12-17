@@ -2,6 +2,7 @@ package train;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -143,9 +144,9 @@ public class DataHub {
 			//printTrainBoardInformation(trainBoardInformation); // uncomment out to not print the station data
 			image.bitMapDrawing(trainBoardInformation,platformNo); // creates the trainboard image, at the platform default 0
 		} catch (Exception e) {
+			Date date = new Date();
+			System.out.println("[" + date.getTime() + "] - " + e.getMessage());
 			e.printStackTrace();
 		}
-
 	}
-
 }

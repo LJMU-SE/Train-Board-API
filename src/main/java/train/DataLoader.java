@@ -23,8 +23,6 @@ public class DataLoader {
     } 
     catch(IOException e)
     {
-        Date date = new Date();
-        System.out.println("[" + date.getTime() + "] - " + e.getMessage());
         e.printStackTrace();
     }
 
