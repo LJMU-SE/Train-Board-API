@@ -4,6 +4,12 @@ stages:
     - build
     - deploy
 
+# Only run pipelines on production branch
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
 # Define the variables
 variables:
     PROJECT_NAME: train-board-api
