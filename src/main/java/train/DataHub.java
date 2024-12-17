@@ -3,6 +3,7 @@ package train;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,9 +11,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import train.Service.*;
-import java.util.Scanner;
+import train.Service.CallingPoint;
+import train.Service.Root;
+import train.Service.SubsequentCallingPoint;
+import train.Service.TrainBoard;
+import train.Service.TrainService;
 
 public class DataHub {
 
@@ -133,7 +136,7 @@ public class DataHub {
 
 		// Comment out if you want user input, default set to LIV
 		String response = example.run(
-				"https://api1.raildata.org.uk/1010-live-departure-board-dep/LDBWS/api/20220120/GetDepBoardWithDetails/GSW");
+				"https://api1.raildata.org.uk/1010-live-departure-board-dep/LDBWS/api/20220120/GetDepBoardWithDetails/EUS");
 
 		try {
 			// Create a new ObjectMapper object

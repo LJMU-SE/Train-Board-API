@@ -1,16 +1,18 @@
 package train;
 
-import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics; // use this to measure size of fonts to see if it needs wrapping
-import java.awt.Graphics2D;
-import javax.imageio.ImageIO;
-import java.util.ArrayList;
-
-import train.Service.*;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D; // use this to measure size of fonts to see if it needs wrapping
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
+import train.Service.CallingPoint;
+import train.Service.TrainBoard;
 
 public class BitmapGenerator {
 
@@ -29,6 +31,13 @@ public class BitmapGenerator {
         }
     }
 
+    /**
+     * Checks to see if the text fits on the screen and if not applies the text shortening tools to ensure that it passes
+     * @param text
+     * @param width
+     * @param g2d
+     * @return
+     */
     public String textLengthCheck(String text, int width, Graphics2D g2d){
         TextShortening textShortening = new TextShortening();
         FontMetrics metrics = g2d.getFontMetrics();
@@ -53,18 +62,18 @@ public class BitmapGenerator {
         String platformNumberText = platformNumber == null ? "Platform --" :board.getDepartureTime() + " Platform " + board.getPlatformNo(); // work out how to ensure it takes up the total amount of space across the screen
         ArrayList<CallingPoint> callingStations = board.getCallingStations(); // array of calling stations
         String infoText = "Calling at:       Page " + (callingLoops) + " of " + totalPages; // work out how to ensure it takes up the total amount of space across the screen
+
+        // Sets up the buffered image ready to draw
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = image.createGraphics();
+
         g2d.setColor(Color.ORANGE);
         g2d.setFont(new Font(globalFont, Font.PLAIN, 14));
         int x = 0;
-        int y = 0;
-
-        // g2d.fillRect(0,0,width,height);
+        int y = 13;
 
         try {
             // Displays if the train has been cancelled or the platform it is due to arrive
-            y = 13;
             g2d.drawString(textLengthCheck(board.getOrigin(),124,g2d),x,y);
             y = 30;
             if (board.getOnTime().equals("Cancelled")){
@@ -80,7 +89,7 @@ public class BitmapGenerator {
             y = 44;
             g2d.drawString(textLengthCheck(board.getDestination(), 124, g2d), x, y);
 
-            g2d.setFont(new Font(globalFont, Font.PLAIN, 17-8));
+            g2d.setFont(new Font(globalFont, Font.PLAIN, 9));
             y = 55;
             // displays if the train is on time, delayed or cancelled
             if (board.getOnTime().equals("On time")){
@@ -97,7 +106,7 @@ public class BitmapGenerator {
             }
 
             g2d.setColor(Color.ORANGE);
-            g2d.setFont(new Font(globalFont, Font.PLAIN, 17-8));
+            g2d.setFont(new Font(globalFont, Font.PLAIN, 9));
             x = 126;
             y = 10;
             // displays the number of calling station pages
@@ -105,11 +114,12 @@ public class BitmapGenerator {
 
             g2d.setFont(new Font(globalFont, Font.PLAIN, 9));
             y = 20;
-            // displays the calling points of the train
+            // create a duplicate list to loop through
             ArrayList <CallingPoint> callingStationsCopy = new ArrayList<CallingPoint> (callingStations);
 
             for(CallingPoint station : callingStationsCopy){
-                String stationName = station.getSt() + " - " + station.getLocationName();
+                String time = board.getOnTime().equals("Delayed") ? station.getAt() : station.getSt();
+                String stationName = time + " - " + station.getLocationName();
                 g2d.drawString(textLengthCheck(stationName, 128, g2d), x, y);
                 y += 10;                          
                 callingStations.remove(0);
@@ -117,9 +127,7 @@ public class BitmapGenerator {
                     break;
                 }
             }
-            y =125;
-
-            g2d.setFont(new Font(globalFont, Font.PLAIN, 17-8));
+            g2d.setFont(new Font(globalFont, Font.PLAIN, 9));
             y = 200;
             // finally displays the train service it is running on
             g2d.drawString(board.getTrainService(), x,y);
@@ -128,7 +136,7 @@ public class BitmapGenerator {
             g2d.dispose();
         }
         // calls the saveImage method to save the image
-        saveImage(image, "/data/Board" + callingLoops + ".BMP");
+        saveImage(image, "./data/Board" + callingLoops + ".BMP");
     }
 
     public void bitMapDrawing(ArrayList<TrainBoard> trainBoardInformation, int platformNo) {

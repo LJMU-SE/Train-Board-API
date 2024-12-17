@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty; // version 2.11.1
 
-// @JsonIgnoreProperties(ignoreUnknown = true)
 public class Root {
     @JsonProperty("trainServices")
     public ArrayList<TrainService> getTrainServices() {
