@@ -43,11 +43,11 @@ check:
     script:
         - |
             # Check if the image exists locally or on Docker Hub
-            if docker manifest inspect "$IMAGE_NAME:$IMAGE_TAG" > /dev/null 2>&1; then
-                echo "Docker image $IMAGE_NAME:$IMAGE_TAG already exists."
+            if docker manifest inspect "$IMAGE_NAME:$TAG" > /dev/null 2>&1; then
+                echo "Docker image $IMAGE_NAME:$TAG already exists."
                 exit 1 # Fail the pipeline
             else
-                echo "Docker image $IMAGE_NAME:$IMAGE_TAG does not exist."
+                echo "Docker image $IMAGE_NAME:$TAG does not exist."
                 exit 0 # Pass the check stage
             fi
 
