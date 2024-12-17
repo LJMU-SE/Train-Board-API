@@ -26,8 +26,8 @@ default:
 prepare:
     stage: prepare
     script:
-        - apk add jq git
-        - export TAG=$(jq -r .version pom.xml)
+        - apk add xmllint
+        - export TAG=$(xmllint --xpath "//*[local-name()='version']/text()" pom.xml)
         - echo "TAG=$TAG" >> variables.env
     before_script: []
     services: []
