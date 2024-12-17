@@ -4,6 +4,11 @@ stages:
     - build
     - deploy
 
+# Only run pipelines on production branch
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
 # Define the variables
 variables:
     PROJECT_NAME: train-board-api
@@ -104,3 +109,4 @@ deploy:
         - kubectl config use-context $KUBE_CONTEXT
         - kubectl apply -f $CI_PROJECT_DIR/specs/.
         - kubectl set image deployment/$PROJECT_NAME $PROJECT_NAME=$IMAGE_NAME:$TAG-arm64
+        - kubectl set env deployment/$PROJECT_NAME RAILDATA_API_KEY=$API_KEY
