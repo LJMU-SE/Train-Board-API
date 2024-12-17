@@ -6,23 +6,17 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 import train.DataHub;
 
 public class Server {
-
-    static Scanner scan = new Scanner(System.in);
 
     /*
      * Checks to see if the folder is empty
      */
     public static boolean checkFolder(String folderPath) {
         File folder = new File(folderPath);
-        if (folder.listFiles().length != 0) {      
-            return true;
-        }
-        return false;
+        return folder.listFiles().length != 0;
     }
 
     public static void main(String[] args) {
@@ -31,7 +25,7 @@ public class Server {
 
         // DataHub dataHub = new DataHub(); 
         // try {
-        //     dataHub.createBoard(1);
+        //     dataHub.createBoard(0);
         // } catch (IOException e) {
         //     // TODO Auto-generated catch block
         //     e.printStackTrace();
@@ -39,7 +33,7 @@ public class Server {
 
 
         int port = 9876;
-        String folderPath = "/data";  // Path to the folder containing the images
+        String folderPath = "./data";  // Path to the folder containing the images
 
         // Make the folder if it doesn't exist
         File folder = new File(folderPath);
@@ -62,7 +56,6 @@ public class Server {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 clientSocket.setSoTimeout(5000);
-                // BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  FIX ME LATER
                 System.out.println("Client connected from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
 
                 int delayTime = 5000;

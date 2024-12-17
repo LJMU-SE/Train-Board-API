@@ -4,12 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DataLoader {
 
     public ArrayList<StationInformation> loadCSV(){
-    ArrayList<StationInformation> stations = new ArrayList<StationInformation>();
+    ArrayList<StationInformation> stations = new ArrayList<>();
     String line = "";
     String splitBy = ",";
     try {
