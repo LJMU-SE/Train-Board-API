@@ -18,11 +18,11 @@ spec:
         spec:
             containers:
                 - name: train-board-api
-                  image: ${IMAGE_NAME}:latest-arm64
+                  image: $IMAGE_NAME:latest-arm64
                   imagePullPolicy: Always
                   env:
                       - name: RAILDATA_API_KEY
-                        value: ${API_KEY}
+                        value: $API_KEY
                   resources:
                       limits:
                           cpu: "0.5"

@@ -102,6 +102,6 @@ deploy:
     script:
         # Deploy the image to the local kubernetes cluster
         - kubectl config use-context $KUBE_CONTEXT
-        - envsubst < $CI_PROJECT_DIR/specs/deployment.yml > $CI_PROJECT_DIR/specs/deployment.yml
         - kubectl apply -f $CI_PROJECT_DIR/specs/.
         - kubectl set image deployment/$PROJECT_NAME $PROJECT_NAME=$IMAGE_NAME:$TAG-arm64
+        - kubectl set env deployment/$PROJECT_NAME RAILDATA_API_KEY=$API_KEY
