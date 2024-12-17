@@ -38,4 +38,6 @@ The matrix displays are being driven by **Interstate 75 W** boards controlled by
 ### Output Display
 
 V.1
-![Video](images/WhatsApp%20Video%202024-12-16%20at%2013.40.05.mp4)
+
+
+![First Display](images/WhatsApp%20Video%202024-12-16%20at%2013.40.05.mp4)
