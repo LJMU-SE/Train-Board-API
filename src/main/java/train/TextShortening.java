@@ -45,8 +45,9 @@ public class TextShortening {
         shortWords.put("Upon-Avon", "");
         shortWords.put("Technology", "Tech'");
         shortWords.put("Bridge", "Brg");
+        shortWords.put("Bank", "Bnk");
+        shortWords.put("Quay", "Qy");
 
-        
 
         String[] stationWords = station.split(" ");
 

@@ -68,7 +68,12 @@ public class Server {
                         if (currentTime - lastSent >= delayTime) {
 
                             DataHub dataHub = new DataHub(); 
+                            for(File file: folder.listFiles()) 
+                                if (!file.isDirectory()){ 
+                                    file.delete();
+                                }
                             dataHub.createBoard(1);
+                            
 
                             while (checkFolder(folderPath)) {
                                 // grabs the first file in the folder
