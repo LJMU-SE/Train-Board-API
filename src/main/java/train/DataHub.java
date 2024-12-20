@@ -136,9 +136,7 @@ public class DataHub {
 
 		// Comment out if you want user input, default set to LIV
 		String response = example.run(
-				"https://api1.raildata.org.uk/1010-live-departure-board-dep/LDBWS/api/20220120/GetDepBoardWithDetails/EUS");
-				
-		
+				"https://api1.raildata.org.uk/1010-live-departure-board-dep/LDBWS/api/20220120/GetDepBoardWithDetails/LIV");
 		try {
 			// Create a new ObjectMapper object
 			ObjectMapper mapper = new ObjectMapper();
@@ -146,7 +144,6 @@ public class DataHub {
 			// Parse the JSON data and read it into the Root object
 			Root root = mapper.readValue(response, Root.class);
 			addServicesToTrainBoard(root, trainBoardInformation);
-			System.out.println("\nGenerating train services for - " + root.getLocationName());
 			//printTrainBoardInformation(trainBoardInformation); // uncomment out to not print the station data
 			image.bitMapDrawing(trainBoardInformation,platformNo); // creates the trainboard image, at the platform default 0
 		} catch (Exception e) {

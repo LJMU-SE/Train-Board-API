@@ -25,7 +25,7 @@ public class BitmapGenerator {
         try {
             File outputfile = new File(fileName);
             ImageIO.write(image, "bmp", outputfile);
-            System.out.println("Image created successfully!");
+            System.out.println("Image " + fileName + " created successfully!");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,11 +153,15 @@ public class BitmapGenerator {
         if (callingPageNos == 0) callingPageNos = 1; // if there are no calling stations it will display the current number of pages
         int pageNumber = 1; // to keep track of the current page number
 
+        System.out.println("\n---------------------------------------------------------------------------------------------------------");
+        System.out.println("\nGenerating images for " + board.getDestination() + " to " + board.getOrigin() + " on platform " + board.getPlatformNo() + "\n");
+
         do{
             drawBoardImage(256, 64, trainBoardInformation, platformNo, pageNumber, (int)callingPageNos);
             pageNumber++;
         } while (pageNumber <= callingPageNos); // contiunes to create new images until all calling stations are displayed
         long endTime = System.currentTimeMillis();
-        System.out.println("Time taken: " + (endTime - startTime) + "ms");
+
+        System.out.println("\nFinished generating images. Time taken: " + (endTime - startTime) + "ms");
     }
 }
