@@ -6,8 +6,8 @@ stages:
 
 # Only run pipelines on production branch
 workflow:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 # Define the variables
 variables:
@@ -16,7 +16,7 @@ variables:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
     CI_PROJECT_DIR: kubernetes
-    KUBE_CONTEXT: ljmu-set/K3S:set-lab-cluster
+    KUBE_CONTEXT: ljmu-csm/ljmu-set/K3S:set-lab-cluster
 
 # Set default image and services
 default:
