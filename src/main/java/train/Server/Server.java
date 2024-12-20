@@ -51,12 +51,13 @@ public class Server {
                 socket.connect(new InetSocketAddress("google.com", 80));
                 localIP = socket.getLocalAddress().getHostAddress();
             }
-            System.out.println("Server is listening on: " + localIP + ":" + port);
+            System.out.println("\n[INFO] - Server is listening on: " + localIP + ":" + port);
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 clientSocket.setSoTimeout(5000);
-                System.out.println("Client connected from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+                // BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));  FIX ME LATER
+                System.out.println("[INFO] - Client connected from " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
 
                 int delayTime = 5000;
                 long lastSent = 0;
@@ -88,7 +89,7 @@ public class Server {
                                 out.write(imageData);
                                 out.write("DEADBEEF".getBytes());
                                 out.flush();
-                                System.out.println("Image sent to client at " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " (size " + imageData.length + " bytes)");
+                                System.out.println("\nImage " + files[0].getName() +" sent to client at " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " (size " + imageData.length + " bytes)");
 
                                 // deletes the image in the folder
                                 files[0].delete();
