@@ -124,7 +124,7 @@ public class BitmapGenerator {
 
             for(CallingPoint station : callingStationsCopy){
                 String arrivalTime = Objects.requireNonNullElse(station.getAt(), "");
-                String standardTime = board.getOnTime().equals("On Time") ? station.getSt() : station.getAt();
+                String standardTime = board.getOnTime().equals("On Time") ? station.getSt() : Objects.requireNonNullElse(station.getAt(), station.getEt());
                 String time = board.getOnTime().equals("Delayed") ? arrivalTime : standardTime;
                 String stationName = time + " - " + station.getLocationName();
                 g2d.drawString(textLengthCheck(stationName, 128, g2d), x, y);
