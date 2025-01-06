@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import okhttp3.OkHttpClient;
@@ -121,7 +120,7 @@ public class DataHub {
 	}
 
 	public void createBoard(int platformNo) throws IOException {
-		ArrayList<TrainBoard> trainBoardInformation = new ArrayList<TrainBoard>();
+		ArrayList<TrainBoard> trainBoardInformation = new ArrayList<>();
 		generateAPI example = new generateAPI();
 		BitmapGenerator image = new BitmapGenerator();
 		
