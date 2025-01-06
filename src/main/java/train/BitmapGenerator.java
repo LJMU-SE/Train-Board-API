@@ -61,7 +61,6 @@ public class BitmapGenerator {
         String platformNumber = board.getPlatformNo();
         String platformNumberText = platformNumber == null ? board.getDepartureTime() + " Platform --" : board.getDepartureTime() + " Platform " + board.getPlatformNo(); // work out how to ensure it takes up the total amount of space across the screen
         ArrayList<CallingPoint> callingStations = board.getCallingStations(); // array of calling stations
-        String infoText = "Calling at:       Page " + (callingLoops) + " of " + totalPages; // work out how to ensure it takes up the total amount of space across the screen
 
         // Sets up the buffered image ready to draw
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -96,11 +95,7 @@ public class BitmapGenerator {
                 g2d.setColor(Color.GREEN);
                 g2d.drawString("On time", x, y);
             }
-            else if (board.getOnTime().equals("Cancelled")){
-                g2d.setColor(Color.RED);
-                g2d.drawString("Cancelled", x, y);
-            }
-            else {
+            else if (board.getOnTime().equals("Delayed")){
                 g2d.setColor(Color.RED);
                 g2d.drawString("Delayed " + board.getOnTime(), x, y);
             }
@@ -110,7 +105,12 @@ public class BitmapGenerator {
             x = 126;
             y = 10;
             // displays the number of calling station pages
-            g2d.drawString(infoText, x + 1, y);
+            if (board.getOnTime().equals("Cancelled")){
+                g2d.setColor(Color.RED);
+                g2d.drawString("Was Calling at:   Page " + (callingLoops) + " of " + totalPages, x + 1, y);
+                g2d.setColor(Color.ORANGE);
+            }
+            g2d.drawString("Calling at:       Page " + (callingLoops) + " of " + totalPages, x + 1, y);
 
             g2d.setFont(new Font(globalFont, Font.PLAIN, 9));
             y = 20;
