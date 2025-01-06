@@ -6,6 +6,9 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import train.DataHub;
 
@@ -78,21 +81,24 @@ public class Server {
 
                             while (checkFolder(folderPath)) {
                                 // grabs the first file in the folder
-                                File[] files = folder.listFiles();
-                                String filePath = files[0].getAbsolutePath();
+                                List<String> files = Arrays.asList(folder.list());
+                                Collections.sort(files);
+                                String filePath = files.get(0);
 
                                 // Convert the image to a byte array
-                                byte[] imageData = ImageToByteArray.convertImageToByteArray(new File(filePath), format);
+                                File currentImage = new File(filePath);
+                                byte[] imageData = ImageToByteArray.convertImageToByteArray(currentImage, format);
 
                                 // Send the image data to the client
                                 OutputStream out = clientSocket.getOutputStream();
                                 out.write(imageData);
                                 out.write("DEADBEEF".getBytes());
                                 out.flush();
-                                System.out.println("\nImage " + files[0].getName() +" sent to client at " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " (size " + imageData.length + " bytes)");
+                                System.out.println("\nImage " + files.get(0) +" sent to client at " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " (size " + imageData.length + " bytes)");
 
                                 // deletes the image in the folder
-                                files[0].delete();
+                                currentImage.delete();
+
                                 System.out.println("Image deleted");
  
                                 try {

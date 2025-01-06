@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
@@ -95,9 +96,13 @@ public class BitmapGenerator {
                 g2d.setColor(Color.GREEN);
                 g2d.drawString("On time", x, y);
             }
-            else if (board.getOnTime().equals("Delayed")){
+            else if (board.getOnTime().equals("Cancelled")){
+                // do nothing add a better check for this
+            }
+            else {
+                String delayedIndicator = board.getOnTime().equals("Delayed") ? "" : board.getOnTime(); // Decides whether to display delayed time if available
                 g2d.setColor(Color.RED);
-                g2d.drawString("Delayed " + board.getOnTime(), x, y);
+                g2d.drawString("Delayed " + delayedIndicator , x, y);
             }
 
             g2d.setColor(Color.ORANGE);
@@ -118,7 +123,10 @@ public class BitmapGenerator {
             ArrayList <CallingPoint> callingStationsCopy = new ArrayList<> (callingStations);
 
             for(CallingPoint station : callingStationsCopy){
-                String time = board.getOnTime().equals("Delayed") ? station.getAt() : station.getSt();
+
+                String arrivalTime = Objects.requireNonNullElse(station.getAt(), "");
+                String standardTime = station.getSt();
+                String time = board.getOnTime().equals("Delayed") ? arrivalTime : standardTime;
                 String stationName = time + " - " + station.getLocationName();
                 g2d.drawString(textLengthCheck(stationName, 128, g2d), x, y);
                 y += 10;                          
