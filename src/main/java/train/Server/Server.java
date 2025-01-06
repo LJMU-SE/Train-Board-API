@@ -6,9 +6,6 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import train.DataHub;
 
@@ -81,23 +78,22 @@ public class Server {
 
                             while (checkFolder(folderPath)) {
                                 // grabs the first file in the folder
-                                List<String> files = Arrays.asList(folder.list());
-                                Collections.sort(files);
-                                String filePath = files.get(0);
+                                File[] files = folder.listFiles();
+                                sortFileByPath(files);
+                                String filePath = files[0].getAbsolutePath();
 
                                 // Convert the image to a byte array
-                                File currentImage = new File(filePath);
-                                byte[] imageData = ImageToByteArray.convertImageToByteArray(currentImage, format);
+                                byte[] imageData = ImageToByteArray.convertImageToByteArray(new File(filePath), format);
 
                                 // Send the image data to the client
                                 OutputStream out = clientSocket.getOutputStream();
                                 out.write(imageData);
                                 out.write("DEADBEEF".getBytes());
                                 out.flush();
-                                System.out.println("\nImage " + files.get(0) +" sent to client at " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " (size " + imageData.length + " bytes)");
+                                System.out.println("\nImage " + filePath +" sent to client at " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " (size " + imageData.length + " bytes)");
 
                                 // deletes the image in the folder
-                                currentImage.delete();
+                                files[0].delete();
 
                                 System.out.println("Image deleted");
  
@@ -118,5 +114,30 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void sortFileByPath(File files[]){
+
+        if (files.length == 1)
+            return;
+
+       boolean sorted;
+       
+       do { 
+        sorted = true;
+
+        for (int i = 0; i < files.length; i++){
+
+            String one = files[i].getName();
+            String two = files[i + 1].getName();
+
+            if (one.compareTo(two) == 1){
+                File buffer = files[i];
+                files[i] = files[i + 1];
+                files[i + 1] = buffer;
+                sorted = false;
+            }
+        }
+       } while (!sorted);
     }
 }
