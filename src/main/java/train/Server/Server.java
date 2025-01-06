@@ -126,7 +126,7 @@ public class Server {
        do { 
         sorted = true;
 
-        for (int i = 0; i < files.length; i++){
+        for (int i = 0; i < files.length - 1; i++){
 
             String one = files[i].getName();
             String two = files[i + 1].getName();
