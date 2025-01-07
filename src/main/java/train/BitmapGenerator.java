@@ -115,8 +115,9 @@ public class BitmapGenerator {
                 g2d.drawString("Was Calling at:   Page " + (callingLoops) + " of " + totalPages, x + 1, y);
                 g2d.setColor(Color.ORANGE);
             }
-            g2d.drawString("Calling at:       Page " + (callingLoops) + " of " + totalPages, x + 1, y);
-
+            else {
+                g2d.drawString("Calling at:       Page " + (callingLoops) + " of " + totalPages, x + 1, y);
+            }
             g2d.setFont(new Font(globalFont, Font.PLAIN, 9));
             y = 20;
             // create a duplicate list to loop through
@@ -125,6 +126,7 @@ public class BitmapGenerator {
             for(CallingPoint station : callingStationsCopy){
                 String arrivalTime = Objects.requireNonNullElse(station.getAt(), "");
                 String standardTime = board.getOnTime().equals("On Time") ? station.getSt() : Objects.requireNonNullElse(station.getAt(), station.getEt());
+                if (board.getOnTime().equals("Cancelled")) standardTime = "";
                 String time = board.getOnTime().equals("Delayed") ? arrivalTime : standardTime;
                 String stationName = time + " - " + station.getLocationName();
                 g2d.drawString(textLengthCheck(stationName, 128, g2d), x, y);
