@@ -75,7 +75,7 @@ public class BitmapGenerator {
         try {
             // Displays if the train has been cancelled or the platform it is due to arrive
             g2d.drawString(textLengthCheck(board.getOrigin(),124,g2d),x,y);
-            y = 30;
+            y = 27;
             if (board.getOnTime().equals("Cancelled")){
                 g2d.setColor(Color.RED);
                 g2d.drawString("Cancelled",x,y);
@@ -86,11 +86,11 @@ public class BitmapGenerator {
             }
 
             // displays the destination of the train
-            y = 44;
+            y = 40;
             g2d.drawString(textLengthCheck(board.getDestination(), 124, g2d), x, y);
 
             g2d.setFont(new Font(globalFont, Font.PLAIN, 9));
-            y = 55;
+            y = 50;
             // displays if the train is on time, delayed or cancelled
             if (board.getOnTime().equals("On time")){
                 g2d.setColor(Color.GREEN);
@@ -105,15 +105,19 @@ public class BitmapGenerator {
                 g2d.drawString("Delayed " + delayedIndicator , x, y);
             }
 
+            y = 60;
             g2d.setColor(Color.ORANGE);
             g2d.setFont(new Font(globalFont, Font.PLAIN, 9));
+            g2d.drawString(drawCoaches(board.getNoCarriages(), board.getOnTime()), x, y);
+            
             x = 126;
             y = 10;
             // displays the number of calling station pages
             if (board.getOnTime().equals("Cancelled")){
                 g2d.setColor(Color.RED);
-                g2d.drawString("Was Calling at:   Page " + (callingLoops) + " of " + totalPages, x + 1, y);
+                g2d.drawString("Was Calling at: ", x + 1, y);
                 g2d.setColor(Color.ORANGE);
+                g2d.drawString("Page " + (callingLoops) + " of " + totalPages, x + 78, y);
             }
             else {
                 g2d.drawString("Calling at:       Page " + (callingLoops) + " of " + totalPages, x + 1, y);
@@ -125,8 +129,8 @@ public class BitmapGenerator {
 
             for(CallingPoint station : callingStationsCopy){
                 String arrivalTime = Objects.requireNonNullElse(station.getAt(), "");
-                String standardTime = board.getOnTime().equals("On Time") ? station.getSt() : Objects.requireNonNullElse(station.getAt(), station.getEt());
-                if (board.getOnTime().equals("Cancelled")) standardTime = "";
+                String standardTime = board.getOnTime().equals("On time") ? station.getSt() : Objects.requireNonNullElse(station.getAt(), station.getEt());
+                if (board.getOnTime().equals("Cancelled") || station.getSt().equals("On time")) standardTime = "";
                 String time = board.getOnTime().equals("Delayed") ? arrivalTime : standardTime;
                 String stationName = time + " - " + station.getLocationName();
                 g2d.drawString(textLengthCheck(stationName, 128, g2d), x, y);
@@ -156,8 +160,7 @@ public class BitmapGenerator {
          * Calculates the number of pages needed to display all the calling stations
          */
         int totalStations = board.getCallingStations().size();
-        int stationsPerPage = 5;
-        int callingPageNos = (int) Math.ceil((double) totalStations / stationsPerPage);
+        int stationsPerPage = 5;        int callingPageNos = (int) Math.ceil((double) totalStations / stationsPerPage);
 
         if (callingPageNos == 0) callingPageNos = 1; // if there are no calling stations it will display the current number of pages
         int pageNumber = 1; // to keep track of the current page number
@@ -172,5 +175,29 @@ public class BitmapGenerator {
         long endTime = System.currentTimeMillis();
 
         System.out.println("\nFinished generating images. Time taken: " + (endTime - startTime) + "ms");
+    }
+
+    /**
+     * Generates a string for number of coaches for the service to print to the display
+     * if no information is available then it returns a message and if its cancelled it returns nothing
+     * @param noCoaches The number of coaches available for the service
+     * @param onTime To check if its cancelled
+     * @return
+     */
+    public static String drawCoaches(int noCoaches, String onTime){
+        String coachString = "";
+        if (onTime.equals("Cancelled")) return "";
+        if (noCoaches == 0) {
+            return coachString = "No coach info available";
+        }
+        String front = "<";
+        String coach = "[_]";
+        coachString += front + coach;
+        noCoaches -= 1;
+        while (noCoaches != 0){
+            coachString += coach;
+            noCoaches -= 1;
+        }
+        return coachString;
     }
 }

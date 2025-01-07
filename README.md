@@ -29,7 +29,6 @@ The matrix displays are being driven by **Interstate 75 W** boards controlled by
 
 ### Features Not Yet Implemented
 
--   **Server hosted**
 - **Multiple Platforms Displayed**
 - **Better handling of scaling sizing**
 - **Optimised code**
