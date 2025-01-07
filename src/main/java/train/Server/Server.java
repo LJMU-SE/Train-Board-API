@@ -80,6 +80,10 @@ public class Server {
                                 // grabs the first file in the folder
                                 File[] files = folder.listFiles();
                                 sortFileByPath(files);
+                                for (File file : files){    
+                                    System.out.println(file.getAbsolutePath());
+                                }
+                                System.out.println("This should be the first file " + files[0].getAbsolutePath());
                                 String filePath = files[0].getAbsolutePath();
 
                                 // Convert the image to a byte array

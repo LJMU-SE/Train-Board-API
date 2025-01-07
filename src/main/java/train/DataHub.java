@@ -135,7 +135,7 @@ public class DataHub {
 
 		// Comment out if you want user input, default set to LIV
 		String response = example.run(
-				"https://api1.raildata.org.uk/1010-live-departure-board-dep/LDBWS/api/20220120/GetDepBoardWithDetails/LIV");
+				"https://api1.raildata.org.uk/1010-live-departure-board-dep/LDBWS/api/20220120/GetDepBoardWithDetails/CTR");
 		try {
 			// Create a new ObjectMapper object
 			ObjectMapper mapper = new ObjectMapper();

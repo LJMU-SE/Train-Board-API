@@ -117,7 +117,7 @@ public class BitmapGenerator {
                 g2d.setColor(Color.RED);
                 g2d.drawString("Was Calling at: ", x + 1, y);
                 g2d.setColor(Color.ORANGE);
-                g2d.drawString("Page " + (callingLoops) + " of " + totalPages, x + 78, y);
+                g2d.drawString("Page " + (callingLoops) + " of " + totalPages, x + 75, y);
             }
             else {
                 g2d.drawString("Calling at:       Page " + (callingLoops) + " of " + totalPages, x + 1, y);
