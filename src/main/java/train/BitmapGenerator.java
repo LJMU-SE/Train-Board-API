@@ -112,7 +112,7 @@ public class BitmapGenerator {
             // displays the number of calling station pages
             if (board.getOnTime().equals("Cancelled")){
                 g2d.setColor(Color.RED);
-                g2d.drawString("Was Calling at:   Page " + (callingLoops) + " of " + totalPages, x + 1, y);
+                g2d.drawString("Was Calling at: Page " + (callingLoops) + " of " + totalPages, x + 1, y);
                 g2d.setColor(Color.ORANGE);
             }
             else {
@@ -126,7 +126,7 @@ public class BitmapGenerator {
             for(CallingPoint station : callingStationsCopy){
                 String arrivalTime = Objects.requireNonNullElse(station.getAt(), "");
                 String standardTime = board.getOnTime().equals("On Time") ? station.getSt() : Objects.requireNonNullElse(station.getAt(), station.getEt());
-                if (board.getOnTime().equals("Cancelled")) standardTime = "";
+                if (board.getOnTime().equals("Cancelled") || station.getSt().equals("On time")) standardTime = "";
                 String time = board.getOnTime().equals("Delayed") ? arrivalTime : standardTime;
                 String stationName = time + " - " + station.getLocationName();
                 g2d.drawString(textLengthCheck(stationName, 128, g2d), x, y);
