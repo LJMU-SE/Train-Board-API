@@ -149,7 +149,7 @@ public class BitmapGenerator {
             g2d.dispose();
         }
         // calls the saveImage method to save the image
-        saveImage(image, "./data/Board" + callingLoops + ".BMP");
+        saveImage(image, "./data/" + callingLoops + ".BMP");
     }
 
     public void bitMapDrawing(ArrayList<TrainBoard> trainBoardInformation, int platformNo) {
