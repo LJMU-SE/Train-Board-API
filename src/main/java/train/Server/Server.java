@@ -154,7 +154,7 @@ public class Server {
         return; // No sorting needed
     }
 
-    Arrays.sort(files, (file1, file2) -> -file1.getName().compareTo(file2.getName()));
+    Arrays.sort(files, (file1, file2) -> file1.getName().compareTo(file2.getName()));
 }
 }
 
