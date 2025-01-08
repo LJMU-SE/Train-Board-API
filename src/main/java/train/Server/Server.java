@@ -121,37 +121,10 @@ public class Server {
         }
     }
 
-    // public static void sortFileByPath(File files[]){
-
-        
-
-    //     if (files.length == 1)
-    //         return;
-
-    //    boolean sorted;
-       
-    //    do { 
-    //     sorted = true;
-
-    //     for (int i = 0; i < files.length - 1; i++){
-
-    //         String one = files[i].getName();
-    //         String two = files[i + 1].getName();
-
-    //         if (one.compareTo(two) == 1){
-    //             File buffer = files[i];
-    //             files[i] = files[i + 1];
-    //             files[i + 1] = buffer;
-    //             sorted = false;
-    //         }
-    //     }
-    //    } while (!sorted);
-    // }
-
     /* sort testing */
   public static void sortFileByPath(File[] files) {
     if (files == null || files.length <= 1) {
-        return; // No sorting needed
+        return;
     }
 
     Arrays.sort(files, (file1, file2) -> file1.getName().compareTo(file2.getName()));
