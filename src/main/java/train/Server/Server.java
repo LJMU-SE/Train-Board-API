@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 
+import train.BitmapGenerator;
 import train.DataHub;
 
 public class Server {
@@ -74,33 +75,15 @@ public class Server {
                                 if (!file.isDirectory()){ 
                                     file.delete();
                                 }
-                            dataHub.createBoard(1);
+                            while (!dataHub.createBoard(1)){
+                                BitmapGenerator.drawBlueScreen();
+                                loopAndSendImagesToBoard(folder, format, clientSocket);
+                                Thread.sleep(3600000);
+                            }
                             
 
                             while (checkFolder(folderPath)) {
-                                // grabs the first file in the folder
-                                File[] files = folder.listFiles();
-                                sortFileByPath(files);
-                                for (File file : files){    
-                                    System.out.println(file.getAbsolutePath());
-                                }
-                                System.out.println("This should be the first file " + files[0].getAbsolutePath());
-                                String filePath = files[0].getAbsolutePath();
-
-                                // Convert the image to a byte array
-                                byte[] imageData = ImageToByteArray.convertImageToByteArray(new File(filePath), format);
-
-                                // Send the image data to the client
-                                OutputStream out = clientSocket.getOutputStream();
-                                out.write(imageData);
-                                out.write("DEADBEEF".getBytes());
-                                out.flush();
-                                System.out.println("\nImage " + filePath +" sent to client at " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " (size " + imageData.length + " bytes)");
-
-                                // deletes the image in the folder
-                                files[0].delete();
-
-                                System.out.println("Image deleted");
+                                loopAndSendImagesToBoard(folder, format, clientSocket);
  
                                 try {
                                     Thread.sleep(10000);
@@ -121,32 +104,31 @@ public class Server {
         }
     }
 
-    // public static void sortFileByPath(File files[]){
+    private static void loopAndSendImagesToBoard(File folder, String format, Socket clientSocket) throws IOException {
+        // grabs the first file in the folder
+        File[] files = folder.listFiles();
+        sortFileByPath(files);
+        for (File file : files){    
+            System.out.println(file.getAbsolutePath());
+        }
+        System.out.println("This should be the first file " + files[0].getAbsolutePath());
+        String filePath = files[0].getAbsolutePath();
 
-        
+        // Convert the image to a byte array
+        byte[] imageData = ImageToByteArray.convertImageToByteArray(new File(filePath), format);
 
-    //     if (files.length == 1)
-    //         return;
+        // Send the image data to the client
+        OutputStream out = clientSocket.getOutputStream();
+        out.write(imageData);
+        out.write("DEADBEEF".getBytes());
+        out.flush();
+        System.out.println("\nImage " + filePath +" sent to client at " + clientSocket.getInetAddress() + ":" + clientSocket.getPort() + " (size " + imageData.length + " bytes)");
 
-    //    boolean sorted;
-       
-    //    do { 
-    //     sorted = true;
+        // deletes the image in the folder
+        files[0].delete();
 
-    //     for (int i = 0; i < files.length - 1; i++){
-
-    //         String one = files[i].getName();
-    //         String two = files[i + 1].getName();
-
-    //         if (one.compareTo(two) == 1){
-    //             File buffer = files[i];
-    //             files[i] = files[i + 1];
-    //             files[i + 1] = buffer;
-    //             sorted = false;
-    //         }
-    //     }
-    //    } while (!sorted);
-    // }
+        System.out.println("Image deleted");
+    }
 
     /* sort testing */
   public static void sortFileByPath(File[] files) {

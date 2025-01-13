@@ -22,7 +22,7 @@ public class BitmapGenerator {
     /*
      * Simple function to save the file to the specified location and will label them approitealy
      */
-    public void saveImage(BufferedImage image, String fileName){
+    public static void saveImage(BufferedImage image, String fileName){
         try {
             File outputfile = new File(fileName);
             ImageIO.write(image, "bmp", outputfile);
@@ -199,5 +199,33 @@ public class BitmapGenerator {
             noCoaches -= 1;
         }
         return coachString;
+    }
+
+    public static void drawBlueScreen(){
+        BufferedImage image = new BufferedImage(256, 64, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = image.createGraphics();
+
+        g2d.setColor(Color.BLUE);
+        g2d.fillRect(0, 0, 256, 64);
+
+        g2d.setColor(Color.WHITE);
+
+        g2d.fillOval(96, 10, 64, 64);
+
+        g2d.setColor(Color.BLUE);
+        g2d.fillOval(115, 25, 10, 10);
+        g2d.fillOval(137, 25, 10, 10);
+
+        g2d.drawArc(115, 35, 32, 20, 0, 180);
+
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(new Font("Monospaced", Font.BOLD, 12));
+        g2d.drawString(":( Train Error", 10, 55);
+
+        g2d.dispose();
+
+        System.out.println("Blue screen");
+
+        saveImage(image, "./data/" + "BlueScreen" + ".BMP");
     }
 }
