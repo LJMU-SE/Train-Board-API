@@ -119,7 +119,7 @@ public class DataHub {
 		return userInput;
 	}
 
-	public void createBoard(int platformNo) throws IOException {
+	public boolean createBoard(int platformNo) throws IOException {
 		ArrayList<TrainBoard> trainBoardInformation = new ArrayList<>();
 		generateAPI example = new generateAPI();
 		BitmapGenerator image = new BitmapGenerator();
@@ -145,10 +145,12 @@ public class DataHub {
 			addServicesToTrainBoard(root, trainBoardInformation);
 			//printTrainBoardInformation(trainBoardInformation); // uncomment out to not print the station data
 			image.bitMapDrawing(trainBoardInformation,platformNo); // creates the trainboard image, at the platform default 0
+			return true;
 		} catch (Exception e) {
 			Date date = new Date();
 			System.out.println("[" + date.getTime() + "] - " + e.getMessage());
 			e.printStackTrace();
+			return false;
 		}
 	}
 }
