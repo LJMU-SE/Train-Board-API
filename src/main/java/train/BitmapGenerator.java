@@ -188,7 +188,7 @@ public class BitmapGenerator {
         String coachString = "";
         if (onTime.equals("Cancelled")) return "";
         if (noCoaches == 0) {
-            return coachString = "No coach info available";
+            return "No coach info available";
         }
         String front = "<";
         String coach = "[_]";
@@ -224,7 +224,7 @@ public class BitmapGenerator {
 
         g2d.dispose();
 
-        System.out.println("Blue screen");
+        System.out.println("Ruh roh error blue screen");
 
         saveImage(image, "./data/" + "BlueScreen" + ".BMP");
     }
